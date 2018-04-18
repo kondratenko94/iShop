@@ -1,0 +1,126 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:s="http://www.springframework.org/schema/security"
+       xmlns:task="http://www.springframework.org/schema/task"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <context:component-scan base-package="com.springapp.mvc"/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <s:global-method-security pre-post-annotations="enabled"/>
+
+    <!-- Spring File upload -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="5242880"/> <!--5 mb-->
+    </bean>
+
+    <!-- Hibernate 4 SessionFactory Bean definition -->
+    <bean id="hibernate4AnnotatedSessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="annotatedClasses">
+            <list>
+                <value>com.springapp.mvc.model.Product</value>
+                <value>com.springapp.mvc.model.Mobile</value>
+                <value>com.springapp.mvc.model.Notebook</value>
+                <value>com.springapp.mvc.model.Image</value>
+                <value>com.springapp.mvc.model.User</value>
+                <value>com.springapp.mvc.model.Group</value>
+                <value>com.springapp.mvc.model.Role</value>
+                <value>com.springapp.mvc.model.FavouriteItem</value>
+                <value>com.springapp.mvc.model.Review</value>
+                <value>com.springapp.mvc.model.ReviewVote</value>
+                <value>com.springapp.mvc.model.Order</value>
+                <value>com.springapp.mvc.model.OrderItem</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- Production implementation of the JavaMailSender interface, supporting
+            both JavaMail MimeMessages and Spring SimpleMailMessages -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.yandex.ru" />
+        <property name="port" value="465" />
+        <property name="username" value="ishop.email" />
+        <property name="password" value="hide1" /> <!-- hide -->
+
+        <!-- The name of the property, following JavaBean naming conventions -->
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <!--<prop key="mail.debug">true</prop>-->
+
+                <prop key="mail.smtp.socketFactory.port">465</prop>
+                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+            </props>
+        </property>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+    </bean>
+
+    <mvc:default-servlet-handler/>
+
+    <!-- File server -->
+    <mvc:resources mapping="/images/**"
+                   location="file:/srv/ishop/images/"
+                   cache-period="10000" />
+
+    <mvc:annotation-driven validator="validator"/>
+
+    <!-- Icon -->
+    <mvc:resources location="resources/icon/favicon.ico" mapping="/favicon.ico" />
+
+    <!-- MessageSource Information -->
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename">
+            <value>messages.validation</value>
+        </property>
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
+
+    <!-- Validator -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="messageInterpolator">
+            <bean class="org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator">
+                <constructor-arg index="0">
+                    <bean class="org.springframework.validation.beanvalidation.MessageSourceResourceBundleLocator">
+                        <constructor-arg index="0" ref="messageSource" />
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Enable Async Annotation -->
+    <task:annotation-driven executor="myExecutor" />
+    <task:executor id="myExecutor" pool-size="7-42" queue-capacity="11"/>
+
+</beans>

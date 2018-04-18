@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+         xmlns:b="http://www.springframework.org/schema/beans"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security.xsd
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <http use-expressions="true">
+        <!--<intercept-url pattern="/management/*" access="hasRole('ADMIN') or hasRole('MODER')"/>-->
+
+        <form-login login-page="/authorization/"
+                    authentication-failure-handler-ref="authenticationFailureHandler"
+                    authentication-success-handler-ref="myAuthenticationSuccessHandler"
+                    authentication-failure-url="/authorization?login_error=1"/>
+        <access-denied-handler error-page="/error"/>
+        <http-basic/>
+        <logout logout-success-url="/"/>
+        <remember-me
+                key="myAppKey"
+                user-service-ref="userDetailServiceImpl"
+                token-repository-ref="tokenRepository"
+                remember-me-cookie="remember-me-cookieName"
+                remember-me-parameter="remember-me-parameter"
+                token-validity-seconds="1209600"/>
+        <headers/>
+        <csrf/>
+    </http>
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="userDetailServiceImpl">
+            <password-encoder ref="bcryptBean"/>
+        </authentication-provider>
+    </authentication-manager>
+
+    <b:bean id="userDetailServiceImpl" class="com.springapp.mvc.security.CustomJdbcDaoImpl">
+        <b:property name="enableGroups" value="true"/>
+        <b:property name="enableAuthorities" value="false"/>
+        <b:property name="dataSource" ref="dataSource"/>
+    </b:bean>
+
+    <b:bean id="bcryptBean" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+        <b:constructor-arg name="strength" value="12"/>
+    </b:bean>
+
+    <b:bean id="tokenRepository"
+            class="org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl">
+        <b:property name="dataSource" ref="dataSource"/>
+    </b:bean>
+
+
+    <b:bean id="authenticationFailureHandler"
+            class="com.springapp.mvc.security.UsernameInUrlAuthenticationFailureHandler">
+        <b:constructor-arg value="/authorization?login_error=" />
+    </b:bean>
+
+    <b:bean id="myAuthenticationSuccessHandler"
+            class="com.springapp.mvc.security.MyUrlAuthenticationSuccessHandler"/>
+
+</b:beans>

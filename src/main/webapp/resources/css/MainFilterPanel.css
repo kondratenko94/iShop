@@ -1,0 +1,195 @@
+/*  */
+.filter_toggle {
+    width: 100% !important;
+    font-size: 30px;
+    color: #4b4b4b;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+.filter_toggle:hover {
+    color: #5f5f5f;
+}
+
+/*  */
+
+
+
+/* dropdown accordion start*/
+
+.accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+    float: right;        /* adjust as needed */
+    color: grey;         /* adjust as needed */
+}
+.accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\e079";    /* adjust as needed, taken from bootstrap.css */
+}
+
+/* dropdown accordion end*/
+
+
+.left_input {
+    width: 48%;
+    float: left;
+    padding-left: 0;
+    padding-right: 0;
+    height: 32px;
+    text-align: center;
+    color: #555;
+}
+
+.right_input {
+    width: 48%;
+    float: right;
+    padding-left: 0;
+    padding-right: 0;
+    height: 32px;
+    text-align: center;
+    color: #555;
+}
+
+.left_input:focus,
+.right_input:focus {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.20);
+    border-color: rgb(175, 175, 175) !important;
+}
+
+.hide_disabled.form-control[disabled] {
+    cursor: default;
+    background-color: white;
+    opacity: 1;
+}
+
+/* custom_combo start*/
+
+.custom_combo {
+    box-shadow: none;
+    border-radius: 4px !important;
+    -moz-appearance: none;
+}
+
+.custom_combo:active,
+.custom_combo:focus {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.20);
+    border-color: rgb(175, 175, 175) !important;
+}
+
+/* custom_combo end*/
+
+/* criteria header start*/
+
+.criteria_header:hover,
+.criteria_header:active,
+.criteria_header:visited,
+.criteria_header:focus {
+    color: #333;
+}
+
+/* criteria header end*/
+
+/* criteria button start*/
+
+.criteria_button {
+    width : 100%;
+    font-family: "PT Sans Narrow", sans-serif;
+    font-size: 18px;
+    line-height:20px;
+    text-align: center;
+    padding: 6px 0;
+}
+
+/* criteria button end*/
+
+/* specific classes related to Checkbox skins start */
+
+label {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+input[type=checkbox].css-checkbox {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height:1px;
+    width:1px;
+    margin:-1px;
+    padding:0;
+    border:0;
+}
+
+input[type=checkbox].css-checkbox + label.css-label {
+    padding-left:20px;
+    height:15px;
+    display:inline-block;
+    line-height:15px;
+    background-repeat:no-repeat;
+    background-position: 0 0;
+    font-size:15px;
+    vertical-align:middle;
+    cursor:pointer;
+}
+
+input[type=checkbox].css-checkbox:checked + label.css-label {
+    background-position: 0 -15px;
+}
+
+.klaus{background-image:url(/resources/icon/checkbox.png);}
+
+input[type=checkbox].css-checkbox.med + label.css-label.med {
+    padding-left:22px;
+    height:17px;
+    display:inline-block;
+    line-height:17px;
+    background-repeat:no-repeat;
+    background-position: 0 0;
+    font-size:15px;
+    vertical-align:middle;
+    cursor:pointer;
+}
+
+input[type=checkbox].css-checkbox.med:checked + label.css-label.med {
+
+    background-position: 0 -17px;
+}
+input[type=checkbox].css-checkbox.sme + label.css-label.sme {
+    padding-left:22px;
+    height:16px;
+    display:inline-block;
+    line-height:16px;
+    background-repeat:no-repeat;
+    background-position: 0 0;
+    font-size:15px;
+    vertical-align:middle;
+    cursor:pointer;
+}
+
+input[type=checkbox].css-checkbox.sme:checked + label.css-label.sme{
+
+    background-position: 0 -16px;
+}
+input[type=checkbox].css-checkbox.lrg + label.css-label.lrg {
+    padding-left:24px; /*22*/
+    height:20px;
+    display:inline-block;
+    line-height:20px;
+    background-repeat:no-repeat;
+    background-position: 0 0;
+    font-size:15px;
+    vertical-align:middle;
+    cursor:pointer;
+}
+
+input[type=checkbox].css-checkbox.lrg:checked + label.css-label.lrg{
+
+    background-position: 0 -20px;
+}
+
+/* specific classes related to Checkbox skins end */

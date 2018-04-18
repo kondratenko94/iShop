@@ -1,0 +1,26 @@
+#message {
+    position: fixed;
+    border-radius: 2px;
+    border: 1px solid #4d5052;
+    background-color: #535a60;
+    width: 300px;
+    z-index: 2000;
+    font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
+    text-align: left;
+    padding: 10px;
+    box-shadow: 0 1px 3px rgba(12,13,14,0.3);
+}
+
+.message_heading {
+    color: #FFF;
+    font-weight: bold;
+    border-bottom: 1px solid #6a737c;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.message_body {
+    color: #e4e6e8;
+    position: relative;
+    font-size: 12px;
+}
